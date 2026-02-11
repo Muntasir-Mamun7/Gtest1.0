@@ -4,7 +4,6 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { 
   OrbitControls, 
   Sky, 
-  Text,
   Html,
   PerspectiveCamera,
   PointerLockControls,
@@ -227,17 +226,18 @@ function InfoTower({ developerData }) {
           infoText={block.info}
         />
       ))}
-      <Text
-        position={[0, 5.5, 0]}
-        fontSize={0.3}
-        color="#FFD700"
-        anchorX="center"
-        anchorY="middle"
-        outlineWidth={0.05}
-        outlineColor="#000000"
-      >
-        {developerData.name}
-      </Text>
+      <Html position={[0, 5.5, 0]} center>
+        <div style={{
+          fontFamily: "'Press Start 2P', cursive",
+          fontSize: '1.5rem',
+          color: '#FFD700',
+          textShadow: '3px 3px 0 #000',
+          whiteSpace: 'nowrap',
+          pointerEvents: 'none'
+        }}>
+          {developerData.name}
+        </div>
+      </Html>
     </group>
   );
 }
@@ -254,16 +254,18 @@ function SkillsDisplay({ languages, position }) {
           infoText={lang}
         />
       ))}
-      <Text
-        position={[languages.length * 0.6 - 0.6, 1.5, 0]}
-        fontSize={0.25}
-        color="#FFFFFF"
-        anchorX="center"
-        outlineWidth={0.03}
-        outlineColor="#000000"
-      >
-        Languages
-      </Text>
+      <Html position={[languages.length * 0.6 - 0.6, 1.5, 0]} center>
+        <div style={{
+          fontFamily: "'Press Start 2P', cursive",
+          fontSize: '1rem',
+          color: '#FFFFFF',
+          textShadow: '2px 2px 0 #000',
+          whiteSpace: 'nowrap',
+          pointerEvents: 'none'
+        }}>
+          Languages
+        </div>
+      </Html>
     </group>
   );
 }
@@ -290,16 +292,18 @@ function TechShowcase({ technologies, position }) {
           />
         );
       })}
-      <Text
-        position={[1.5, 2.5, 0]}
-        fontSize={0.25}
-        color="#FFFFFF"
-        anchorX="center"
-        outlineWidth={0.03}
-        outlineColor="#000000"
-      >
-        Technologies
-      </Text>
+      <Html position={[1.5, 2.5, 0]} center>
+        <div style={{
+          fontFamily: "'Press Start 2P', cursive",
+          fontSize: '1rem',
+          color: '#FFFFFF',
+          textShadow: '2px 2px 0 #000',
+          whiteSpace: 'nowrap',
+          pointerEvents: 'none'
+        }}>
+          Technologies
+        </div>
+      </Html>
     </group>
   );
 }
