@@ -2,8 +2,6 @@ import SignatureAnimation from './SignatureAnimation'
 import MinecraftWorld from './MinecraftWorld'
 import './App.css'
 
-console.log('App component loaded');
-
 function App() {
   console.log('App component rendering...');
   return (

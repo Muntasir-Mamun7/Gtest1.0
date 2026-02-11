@@ -1077,7 +1077,6 @@ function MinecraftWorld() {
         }}
         onCreated={(state) => {
           console.log('Canvas created successfully. WebGL version:', state.gl.capabilities.isWebGL2 ? '2.0' : '1.0');
-          console.log('Renderer:', state.gl.info.programs?.length || 0, 'programs');
         }}
         onError={(error) => {
           console.error('Canvas error:', error);
