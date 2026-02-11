@@ -18,6 +18,16 @@ import { useState, useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import './MinecraftWorld.css';
 
+// Helper function for creating consistent text label styles
+const createLabelStyle = (fontSize = '1rem', color = '#FFFFFF', shadowSize = '2px') => ({
+  fontFamily: "'Press Start 2P', cursive",
+  fontSize,
+  color,
+  textShadow: `${shadowSize} ${shadowSize} 0 #000`,
+  whiteSpace: 'nowrap',
+  pointerEvents: 'none'
+});
+
 // Floating particle component
 function FloatingParticle({ position, color, delay = 0 }) {
   const meshRef = useRef();
@@ -227,14 +237,7 @@ function InfoTower({ developerData }) {
         />
       ))}
       <Html position={[0, 5.5, 0]} center>
-        <div style={{
-          fontFamily: "'Press Start 2P', cursive",
-          fontSize: '1.5rem',
-          color: '#FFD700',
-          textShadow: '3px 3px 0 #000',
-          whiteSpace: 'nowrap',
-          pointerEvents: 'none'
-        }}>
+        <div style={createLabelStyle('1.5rem', '#FFD700', '3px')}>
           {developerData.name}
         </div>
       </Html>
@@ -255,14 +258,7 @@ function SkillsDisplay({ languages, position }) {
         />
       ))}
       <Html position={[languages.length * 0.6 - 0.6, 1.5, 0]} center>
-        <div style={{
-          fontFamily: "'Press Start 2P', cursive",
-          fontSize: '1rem',
-          color: '#FFFFFF',
-          textShadow: '2px 2px 0 #000',
-          whiteSpace: 'nowrap',
-          pointerEvents: 'none'
-        }}>
+        <div style={createLabelStyle('1rem', '#FFFFFF', '2px')}>
           Languages
         </div>
       </Html>
@@ -293,14 +289,7 @@ function TechShowcase({ technologies, position }) {
         );
       })}
       <Html position={[1.5, 2.5, 0]} center>
-        <div style={{
-          fontFamily: "'Press Start 2P', cursive",
-          fontSize: '1rem',
-          color: '#FFFFFF',
-          textShadow: '2px 2px 0 #000',
-          whiteSpace: 'nowrap',
-          pointerEvents: 'none'
-        }}>
+        <div style={createLabelStyle('1rem', '#FFFFFF', '2px')}>
           Technologies
         </div>
       </Html>
