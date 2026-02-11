@@ -11,38 +11,39 @@
 
 .signature-section {
   width: 100%;
-  height: 30vh;
   min-height: 200px;
+  height: 30vh;
   position: relative;
   z-index: 2;
 }
 
 .minecraft-section {
   width: 100%;
-  height: 70vh;
+  min-height: 400px;
+  flex: 1;
   position: relative;
   z-index: 1;
 }
 
 @media (max-width: 768px) {
   .signature-section {
-    height: 25vh;
     min-height: 150px;
+    height: 25vh;
   }
   
   .minecraft-section {
-    height: 75vh;
+    min-height: 300px;
   }
 }
 
 @media (max-width: 480px) {
   .signature-section {
-    height: 20vh;
     min-height: 120px;
+    height: 20vh;
   }
   
   .minecraft-section {
-    height: 80vh;
+    min-height: 250px;
   }
 }
 
