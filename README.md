@@ -2,6 +2,10 @@
 
 A gorgeous, elegant, and professional signature animation built with React and Framer Motion.
 
+## 🌐 Live Demo
+
+Visit the live site: [https://muntasir-mamun7.github.io/Gtest1.0/](https://muntasir-mamun7.github.io/Gtest1.0/)
+
 ## 🎨 Features
 
 - **Smooth 3D Animations**: Letters animate with spring physics and 3D transforms
@@ -10,6 +14,14 @@ A gorgeous, elegant, and professional signature animation built with React and F
 - **Glowing Orbs**: Animated background glow effects
 - **Responsive Design**: Works perfectly on all screen sizes
 - **Professional Typography**: Clean, modern font styling
+
+## 🚀 Deployment
+
+This site is automatically deployed to GitHub Pages using GitHub Actions. Every push to the `main` branch triggers a new deployment.
+
+### Manual Deployment
+
+You can also trigger a manual deployment from the GitHub Actions tab.
 
 ## 🚀 Technologies Used
 
