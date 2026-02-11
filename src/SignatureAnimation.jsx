@@ -5,45 +5,46 @@ const SignatureAnimation = () => {
   const name = "Muntasir Al Mamun";
   const title = "Computer Science Student";
   
-  // Animation variants for the container
+  // Animation variants for the container - blocky motion
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.3
+        staggerChildren: 0.1,
+        delayChildren: 0.2
       }
     }
   };
 
-  // Animation variants for each letter
+  // Animation variants for each letter - pixel-style bounce
   const letterVariants = {
     hidden: {
       opacity: 0,
-      y: 50,
-      rotateX: -90
+      y: -50,
+      scale: 0
     },
     visible: {
       opacity: 1,
       y: 0,
-      rotateX: 0,
+      scale: 1,
       transition: {
         type: "spring",
-        damping: 12,
-        stiffness: 200
+        damping: 8,
+        stiffness: 100,
+        bounce: 0.6
       }
     }
   };
 
-  // Animation for underline
+  // Animation for underline - builds like placing blocks
   const underlineVariants = {
-    hidden: { width: 0 },
+    hidden: { scaleX: 0 },
     visible: {
-      width: "100%",
+      scaleX: 1,
       transition: {
-        duration: 1.2,
-        ease: "easeInOut",
+        duration: 0.8,
+        ease: "linear",
         delay: 1.5
       }
     }
@@ -53,52 +54,51 @@ const SignatureAnimation = () => {
   const subtitleVariants = {
     hidden: { 
       opacity: 0,
-      y: 20
+      scale: 0.5
     },
     visible: {
       opacity: 1,
-      y: 0,
+      scale: 1,
       transition: {
-        duration: 0.8,
+        duration: 0.4,
         delay: 2,
         ease: "easeOut"
       }
     }
   };
 
-  // Animation for the glow effect
-  const glowVariants = {
-    initial: { scale: 0.8, opacity: 0 },
+  // Animation for the pixel clouds
+  const cloudVariants = {
+    initial: { x: 0 },
     animate: {
-      scale: [0.8, 1.2, 1],
-      opacity: [0, 0.5, 0],
+      x: [0, 20, 0],
       transition: {
-        duration: 2,
+        duration: 8,
         repeat: Infinity,
-        repeatDelay: 1
+        ease: "linear"
       }
     }
   };
 
   return (
     <div className="signature-container">
-      {/* Animated background glow */}
+      {/* Animated pixel clouds */}
       <motion.div 
         className="glow-orb glow-orb-1"
-        variants={glowVariants}
+        variants={cloudVariants}
         initial="initial"
         animate="animate"
       />
       <motion.div 
         className="glow-orb glow-orb-2"
-        variants={glowVariants}
+        variants={cloudVariants}
         initial="initial"
         animate="animate"
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 2, duration: 10, repeat: Infinity, ease: "linear" }}
       />
       
       <div className="signature-content">
-        {/* Animated name */}
+        {/* Animated name with blocky letters */}
         <motion.div
           className="name-container"
           variants={containerVariants}
@@ -110,13 +110,18 @@ const SignatureAnimation = () => {
               key={index}
               className="letter"
               variants={letterVariants}
+              whileHover={{
+                scale: 1.15,
+                rotate: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : [0, -5, 5, 0],
+                transition: { duration: 0.3 }
+              }}
             >
               {char === ' ' ? '\u00A0' : char}
             </motion.span>
           ))}
         </motion.div>
 
-        {/* Animated underline */}
+        {/* Animated underline - grass blocks */}
         <motion.div
           className="underline"
           variants={underlineVariants}
@@ -130,43 +135,47 @@ const SignatureAnimation = () => {
           variants={subtitleVariants}
           initial="hidden"
           animate="visible"
+          whileHover={{
+            scale: 1.05,
+            transition: { duration: 0.2 }
+          }}
         >
           {title}
         </motion.div>
 
-        {/* Decorative elements */}
+        {/* Decorative stone lines */}
         <motion.div
           className="decorative-line left-line"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
-          transition={{ duration: 1, delay: 2.5, ease: "easeInOut" }}
+          transition={{ duration: 0.5, delay: 2.5, ease: "linear" }}
         />
         <motion.div
           className="decorative-line right-line"
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
-          transition={{ duration: 1, delay: 2.5, ease: "easeInOut" }}
+          transition={{ duration: 0.5, delay: 2.5, ease: "linear" }}
         />
 
-        {/* Floating particles */}
-        {[...Array(6)].map((_, i) => (
+        {/* Floating golden nuggets (particles) */}
+        {[...Array(8)].map((_, i) => (
           <motion.div
             key={i}
             className="particle"
             style={{
-              left: `${20 + i * 15}%`,
-              top: `${30 + (i % 2) * 40}%`
+              left: `${15 + i * 12}%`,
+              top: `${25 + (i % 3) * 25}%`
             }}
-            animate={{
-              y: [0, -20, 0],
-              opacity: [0.3, 0.8, 0.3],
-              scale: [1, 1.2, 1]
+            animate={window.matchMedia('(prefers-reduced-motion: reduce)').matches ? {} : {
+              y: [0, -30, 0],
+              opacity: [0.6, 1, 0.6],
+              rotate: [0, 180, 360]
             }}
             transition={{
-              duration: 3 + i * 0.5,
+              duration: 2 + i * 0.4,
               repeat: Infinity,
-              delay: i * 0.3,
-              ease: "easeInOut"
+              delay: i * 0.2,
+              ease: "linear"
             }}
           />
         ))}
