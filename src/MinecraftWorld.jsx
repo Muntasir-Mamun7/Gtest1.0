@@ -367,6 +367,7 @@ function Ground() {
   
   useFrame((state) => {
     if (grassMaterial && grassMaterial.uniforms) {
+      // Shader uniform updates are required for animation and don't trigger re-renders
       // eslint-disable-next-line react-hooks/immutability
       grassMaterial.uniforms.uTime.value = state.clock.elapsedTime * 0.5;
     }
@@ -617,7 +618,7 @@ function Bird({ position, color = '#FFD700' }) {
       </mesh>
       
       {/* Beak */}
-      <mesh position={[0, 0.05, 0.37]} castShadow>
+      <mesh position={[0, 0.05, 0.37]} castShadow rotation={[Math.PI / 2, 0, 0]}>
         <coneGeometry args={[0.05, 0.1, 4]} />
         <meshStandardMaterial color="#FF8C00" />
       </mesh>
@@ -1071,7 +1072,6 @@ function MinecraftWorld() {
           antialias: true,
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.2,
-          shadowMap: true,
           shadowMapType: THREE.PCFSoftShadowMap,
         }}
       >
@@ -1098,7 +1098,7 @@ function MinecraftWorld() {
             intensity={0.4}
             luminanceThreshold={0.85}
             luminanceSmoothing={0.9}
-            mipmapBlur
+            mipmapBlur={true}
           />
           <Vignette
             offset={0.3}
