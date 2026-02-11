@@ -132,7 +132,7 @@
 
 /* Subtitle styling */
 .subtitle {
-  font-size: clamp(0.5rem, 2vw, 0.8rem);
+  font-size: clamp(0.75rem, 2vw, 0.8rem);
   color: #FFF;
   font-weight: 400;
   letter-spacing: 0.15em;
@@ -212,7 +212,7 @@
   }
 
   .subtitle {
-    font-size: clamp(0.4rem, 3vw, 0.7rem);
+    font-size: clamp(0.75rem, 3vw, 0.8rem);
     letter-spacing: 0.1em;
     padding: 6px 12px;
   }
@@ -295,4 +295,21 @@
   right: 100px;
   image-rendering: pixelated;
   animation: pixelShimmer 2s infinite ease-in-out;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .signature-container::before,
+  .signature-container::after {
+    animation: none;
+  }
+  
+  .particle {
+    animation: none;
+    opacity: 0.8;
+  }
+  
+  .glow-orb {
+    animation: none;
+  }
 }

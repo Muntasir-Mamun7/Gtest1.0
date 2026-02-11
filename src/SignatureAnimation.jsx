@@ -112,7 +112,7 @@ const SignatureAnimation = () => {
               variants={letterVariants}
               whileHover={{
                 scale: 1.15,
-                rotate: [0, -5, 5, 0],
+                rotate: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : [0, -5, 5, 0],
                 transition: { duration: 0.3 }
               }}
             >
@@ -166,7 +166,7 @@ const SignatureAnimation = () => {
               left: `${15 + i * 12}%`,
               top: `${25 + (i % 3) * 25}%`
             }}
-            animate={{
+            animate={window.matchMedia('(prefers-reduced-motion: reduce)').matches ? {} : {
               y: [0, -30, 0],
               opacity: [0.6, 1, 0.6],
               rotate: [0, 180, 360]
