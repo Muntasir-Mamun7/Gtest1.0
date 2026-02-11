@@ -1,11 +1,14 @@
-import { Canvas } from '@react-three/fiber';
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable react/prop-types */
+import { Canvas, useFrame } from '@react-three/fiber';
 import { 
   OrbitControls, 
   Sky, 
   Text,
   Html,
   PerspectiveCamera,
-  PointerLockControls
+  PointerLockControls,
+  Stars
 } from '@react-three/drei';
 import { 
   EffectComposer, 
@@ -16,8 +19,31 @@ import { useState, useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import './MinecraftWorld.css';
 
+// Floating particle component
+function FloatingParticle({ position, color, delay = 0 }) {
+  const meshRef = useRef();
+  
+  useFrame((state) => {
+    if (meshRef.current) {
+      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 2 + delay) * 0.5;
+      meshRef.current.rotation.y += 0.02;
+    }
+  });
+  
+  return (
+    <mesh ref={meshRef} position={position}>
+      <boxGeometry args={[0.1, 0.1, 0.1]} />
+      <meshStandardMaterial 
+        color={color} 
+        emissive={color}
+        emissiveIntensity={0.5}
+      />
+    </mesh>
+  );
+}
+
 // Block component with hover effects
-function Block({ position, color1, color2, onClick, infoText, type = 'default' }) {
+function Block({ position, color1, onClick, infoText, emissive = false }) {
   const meshRef = useRef();
   const [hovered, setHovered] = useState(false);
   const [clicked, setClicked] = useState(false);
@@ -27,11 +53,21 @@ function Block({ position, color1, color2, onClick, infoText, type = 'default' }
     if (onClick) onClick();
   };
 
-  // Create textured material
+  // Create textured material with optional emissive
   const material = new THREE.MeshStandardMaterial({
     color: new THREE.Color(color1 || '#7EC850'),
     roughness: 0.8,
     metalness: 0.2,
+    emissive: emissive ? new THREE.Color(color1 || '#7EC850') : new THREE.Color('#000000'),
+    emissiveIntensity: emissive ? 0.3 : 0,
+  });
+
+  useFrame((state) => {
+    if (meshRef.current && hovered) {
+      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 2) * 0.1;
+    } else if (meshRef.current && !hovered) {
+      meshRef.current.rotation.y = 0;
+    }
   });
 
   return (
@@ -55,6 +91,98 @@ function Block({ position, color1, color2, onClick, infoText, type = 'default' }
           </div>
         </Html>
       )}
+      {hovered && (
+        <>
+          <FloatingParticle position={[0.3, 1.5, 0.3]} color="#FFD700" delay={0} />
+          <FloatingParticle position={[-0.3, 1.5, -0.3]} color="#FFD700" delay={0.5} />
+        </>
+      )}
+    </group>
+  );
+}
+
+// Treasure chest component
+function TreasureChest({ position }) {
+  const [opened, setOpened] = useState(false);
+  const lidRef = useRef();
+  
+  useFrame(() => {
+    if (lidRef.current) {
+      const targetRotation = opened ? -Math.PI / 3 : 0;
+      lidRef.current.rotation.x += (targetRotation - lidRef.current.rotation.x) * 0.1;
+    }
+  });
+  
+  return (
+    <group position={position}>
+      {/* Base */}
+      <mesh position={[0, 0.25, 0]} castShadow receiveShadow>
+        <boxGeometry args={[1.2, 0.5, 0.8]} />
+        <meshStandardMaterial color="#8B4513" roughness={0.9} />
+      </mesh>
+      
+      {/* Lid */}
+      <group ref={lidRef} position={[0, 0.5, -0.4]}>
+        <mesh position={[0, 0.25, 0.4]} castShadow>
+          <boxGeometry args={[1.2, 0.5, 0.8]} />
+          <meshStandardMaterial color="#654321" roughness={0.9} />
+        </mesh>
+      </group>
+      
+      {/* Lock */}
+      <mesh position={[0, 0.3, 0.41]} castShadow>
+        <boxGeometry args={[0.2, 0.3, 0.1]} />
+        <meshStandardMaterial color="#FFD700" metalness={0.8} roughness={0.2} />
+      </mesh>
+      
+      {/* Click area */}
+      <mesh
+        position={[0, 0.5, 0]}
+        onClick={() => setOpened(!opened)}
+        onPointerOver={() => (document.body.style.cursor = 'pointer')}
+        onPointerOut={() => (document.body.style.cursor = 'auto')}
+      >
+        <boxGeometry args={[1.2, 1, 0.8]} />
+        <meshBasicMaterial transparent opacity={0} />
+      </mesh>
+      
+      {opened && (
+        <>
+          <FloatingParticle position={[0, 1.5, 0]} color="#FFD700" delay={0} />
+          <FloatingParticle position={[0.3, 1.7, 0.3]} color="#FFD700" delay={0.3} />
+          <FloatingParticle position={[-0.3, 1.7, -0.3]} color="#FFD700" delay={0.6} />
+          <Html position={[0, 1.8, 0]} center>
+            <div className="block-info">🎉 Passionate Developer!</div>
+          </Html>
+        </>
+      )}
+    </group>
+  );
+}
+
+// Tree component
+function MinecraftTree({ position }) {
+  return (
+    <group position={position}>
+      {/* Trunk */}
+      <mesh position={[0, 0.5, 0]} castShadow receiveShadow>
+        <boxGeometry args={[0.5, 2, 0.5]} />
+        <meshStandardMaterial color="#8B4513" roughness={0.9} />
+      </mesh>
+      <mesh position={[0, 1, 0]} castShadow receiveShadow>
+        <boxGeometry args={[0.5, 1, 0.5]} />
+        <meshStandardMaterial color="#654321" roughness={0.9} />
+      </mesh>
+      
+      {/* Leaves */}
+      <mesh position={[0, 2.5, 0]} castShadow receiveShadow>
+        <boxGeometry args={[2, 1, 2]} />
+        <meshStandardMaterial color="#228B22" roughness={0.8} />
+      </mesh>
+      <mesh position={[0, 3.5, 0]} castShadow receiveShadow>
+        <boxGeometry args={[1.5, 1, 1.5]} />
+        <meshStandardMaterial color="#2E8B57" roughness={0.8} />
+      </mesh>
     </group>
   );
 }
@@ -234,6 +362,7 @@ function Ground() {
       }
     }, 16);
     return () => clearInterval(interval);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -334,6 +463,30 @@ function Scene({ developerData }) {
       {/* Decorative blocks */}
       <Block position={[-2, 0, 2]} color1="#808080" color2="#696969" infoText="Stone Block" />
       <Block position={[2, 0, 2]} color1="#CD853F" color2="#8B4513" infoText="Wood Block" />
+      <Block position={[-3, 0, 4]} color1="#FF4500" color2="#DC143C" infoText="Redstone Block" emissive={true} />
+      <Block position={[3, 0, 4]} color1="#4169E1" color2="#1E90FF" infoText="Diamond Block" emissive={true} />
+      
+      {/* Treasure chest */}
+      <TreasureChest position={[0, 0, 5]} />
+      
+      {/* Trees */}
+      <MinecraftTree position={[-6, 0, -2]} />
+      <MinecraftTree position={[6, 0, 1]} />
+      <MinecraftTree position={[-5, 0, 6]} />
+      
+      {/* Floating golden particles around the scene */}
+      {[...Array(20)].map((_, i) => (
+        <FloatingParticle
+          key={i}
+          position={[
+            Math.sin(i * 0.5) * 8,
+            2 + Math.cos(i * 0.3) * 2,
+            Math.cos(i * 0.5) * 8
+          ]}
+          color="#FFD700"
+          delay={i * 0.2}
+        />
+      ))}
       
       {/* Animated clouds */}
       <Clouds />
@@ -344,6 +497,17 @@ function Scene({ developerData }) {
         sunPosition={[10, 10, 5]}
         inclination={0.6}
         azimuth={0.25}
+      />
+      
+      {/* Stars for added atmosphere */}
+      <Stars 
+        radius={100} 
+        depth={50} 
+        count={5000} 
+        factor={4} 
+        saturation={0} 
+        fade 
+        speed={1}
       />
     </>
   );
@@ -370,7 +534,7 @@ function MinecraftWorld() {
   return (
     <div className="minecraft-container">
       <div className="controls-ui">
-        <h1 className="title">Muntasir's Minecraft Portfolio</h1>
+        <h1 className="title">Muntasir&apos;s Minecraft Portfolio</h1>
         <div className="control-buttons">
           <button 
             className={controlMode === 'orbit' ? 'active' : ''}
@@ -391,12 +555,14 @@ function MinecraftWorld() {
               <p>🖱️ Click and drag to rotate</p>
               <p>🔍 Scroll to zoom</p>
               <p>👆 Click blocks for info</p>
+              <p>📦 Click chest to open</p>
             </>
           ) : (
             <>
               <p>🖱️ Click to lock pointer</p>
               <p>⌨️ WASD to move</p>
               <p>👆 Click blocks for info</p>
+              <p>📦 Click chest to open</p>
             </>
           )}
         </div>
