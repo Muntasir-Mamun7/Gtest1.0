@@ -3,6 +3,7 @@ import MinecraftWorld from './MinecraftWorld'
 import './App.css'
 
 function App() {
+  console.log('App component rendering...');
   return (
     <div className="app-container map-layout">
       <div className="signature-section">

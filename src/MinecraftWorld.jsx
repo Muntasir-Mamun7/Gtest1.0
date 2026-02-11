@@ -1009,6 +1009,7 @@ function Scene({ developerData }) {
 
 // Main component
 function MinecraftWorld() {
+  console.log('MinecraftWorld component rendering...');
   const [controlMode, setControlMode] = useState('orbit'); // 'orbit' or 'fps'
   
   const developerData = {
@@ -1073,6 +1074,12 @@ function MinecraftWorld() {
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.2,
           shadowMapType: THREE.PCFSoftShadowMap,
+        }}
+        onCreated={(state) => {
+          console.log('Canvas created successfully. WebGL version:', state.gl.capabilities.isWebGL2 ? '2.0' : '1.0');
+        }}
+        onError={(error) => {
+          console.error('Canvas error:', error);
         }}
       >
         <PerspectiveCamera makeDefault position={[15, 12, 15]} />
