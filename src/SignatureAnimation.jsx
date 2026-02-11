@@ -3,7 +3,7 @@ import './SignatureAnimation.css';
 
 const SignatureAnimation = () => {
   const name = "Muntasir Al Mamun";
-  const title = "Computer Science Student";
+  const title = "";
   
   // Animation variants for the container - blocky motion
   const containerVariants = {
@@ -130,18 +130,20 @@ const SignatureAnimation = () => {
         />
 
         {/* Animated subtitle */}
-        <motion.div
-          className="subtitle"
-          variants={subtitleVariants}
-          initial="hidden"
-          animate="visible"
-          whileHover={{
-            scale: 1.05,
-            transition: { duration: 0.2 }
-          }}
-        >
-          {title}
-        </motion.div>
+        {title && (
+          <motion.div
+            className="subtitle"
+            variants={subtitleVariants}
+            initial="hidden"
+            animate="visible"
+            whileHover={{
+              scale: 1.05,
+              transition: { duration: 0.2 }
+            }}
+          >
+            {title}
+          </motion.div>
+        )}
 
         {/* Decorative stone lines */}
         <motion.div
