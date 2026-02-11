@@ -192,32 +192,27 @@ function InfoTower({ developerData }) {
   const blocks = [
     { 
       pos: [0, 0, 0], 
-      color1: '#654321', 
-      color2: '#8B7355',
+      color1: '#654321',
       info: `${developerData.name}`
     },
     { 
       pos: [0, 1, 0], 
-      color1: '#FFD700', 
-      color2: '#FFA500',
+      color1: '#FFD700',
       info: `Role: ${developerData.role}`
     },
     { 
       pos: [0, 2, 0], 
-      color1: '#4169E1', 
-      color2: '#1E90FF',
+      color1: '#4169E1',
       info: `Location: ${developerData.location}`
     },
     { 
       pos: [0, 3, 0], 
-      color1: '#32CD32', 
-      color2: '#228B22',
+      color1: '#32CD32',
       info: `Focus: ${developerData.currentFocus}`
     },
     { 
       pos: [0, 4, 0], 
-      color1: '#FF6347', 
-      color2: '#DC143C',
+      color1: '#FF6347',
       info: `Passion: ${developerData.passion}`
     },
   ];
@@ -229,7 +224,6 @@ function InfoTower({ developerData }) {
           key={i}
           position={block.pos}
           color1={block.color1}
-          color2={block.color2}
           infoText={block.info}
         />
       ))}
@@ -257,7 +251,6 @@ function SkillsDisplay({ languages, position }) {
           key={i}
           position={[i * 1.2, 0, 0]}
           color1="#9370DB"
-          color2="#8A2BE2"
           infoText={lang}
         />
       ))}
@@ -293,7 +286,6 @@ function TechShowcase({ technologies, position }) {
             key={i}
             position={[col * 1.2, row * 1.2, 0]}
             color1="#FF4500"
-            color2="#FF6347"
             infoText={tech}
           />
         );
@@ -461,10 +453,10 @@ function Scene({ developerData }) {
       />
       
       {/* Decorative blocks */}
-      <Block position={[-2, 0, 2]} color1="#808080" color2="#696969" infoText="Stone Block" />
-      <Block position={[2, 0, 2]} color1="#CD853F" color2="#8B4513" infoText="Wood Block" />
-      <Block position={[-3, 0, 4]} color1="#FF4500" color2="#DC143C" infoText="Redstone Block" emissive={true} />
-      <Block position={[3, 0, 4]} color1="#4169E1" color2="#1E90FF" infoText="Diamond Block" emissive={true} />
+      <Block position={[-2, 0, 2]} color1="#808080" infoText="Stone Block" />
+      <Block position={[2, 0, 2]} color1="#CD853F" infoText="Wood Block" />
+      <Block position={[-3, 0, 4]} color1="#FF4500" infoText="Redstone Block" emissive={true} />
+      <Block position={[3, 0, 4]} color1="#4169E1" infoText="Diamond Block" emissive={true} />
       
       {/* Treasure chest */}
       <TreasureChest position={[0, 0, 5]} />
@@ -534,7 +526,7 @@ function MinecraftWorld() {
   return (
     <div className="minecraft-container">
       <div className="controls-ui">
-        <h1 className="title">Muntasir&apos;s Minecraft Portfolio</h1>
+        <h1 className="title">{developerData.name.split(' ')[0]}&apos;s Minecraft Portfolio</h1>
         <div className="control-buttons">
           <button 
             className={controlMode === 'orbit' ? 'active' : ''}

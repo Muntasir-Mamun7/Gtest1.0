@@ -1,3 +1,7 @@
+:root {
+  --cursor-pixel: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="white" stroke="black" stroke-width="2"/></svg>');
+}
+
 .minecraft-container {
   width: 100vw;
   height: 100vh;
@@ -45,7 +49,7 @@
   background: linear-gradient(180deg, #666 0%, #333 100%);
   border: 3px solid #000;
   color: #fff;
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="white" stroke="black" stroke-width="2"/></svg>'), pointer;
+  cursor: var(--cursor-pixel), pointer;
   transition: all 0.1s;
   box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
   text-shadow: 2px 2px 0 #000;
@@ -212,9 +216,9 @@
 
 /* Cursor styles */
 .minecraft-container * {
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="white" stroke="black" stroke-width="2"/></svg>'), auto;
+  cursor: var(--cursor-pixel), auto;
 }
 
 button {
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="white" stroke="black" stroke-width="2"/></svg>'), pointer !important;
+  cursor: var(--cursor-pixel), pointer !important;
 }
